@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Vinos, Raciones, Agua y Café</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a Nuestro Restaurante</h1>
+        <p>Barra en beneficio de los alumnos de 4º ESO de IES Las Viñas.</p>
+        <p>En Mollina.</p>
+    </header>
+
+    <section class="menu">
+        <div class="menu-item">
+            <img src="./IMAGENES/CARTA/VINO.png" alt="Carta de Vinos" onclick="openFullscreen(this)">
+            <div class="overlay">
+                <h2>Carta de Vinos</h2>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img id="raciones-img" alt="Carta de Raciones" onclick="openFullscreen(this)">
+            <div class="overlay">
+                <h2>Carta de Raciones</h2>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="./IMAGENES/OTROS/AGUA_CAFE.png" alt="Opciones de Agua y Café" onclick="openFullscreen(this)">
+            <div class="overlay">
+                <h2>Agua y Café</h2>
+            </div>
+        </div>
+        <div class="menu-item" id="espetos-item">
+            <img src="./IMAGENES/OTROS/ESPETOS.png" alt="Espetos de Sardinas" onclick="openFullscreen(this)">
+            <div class="overlay">
+                <h2>Espetos de Sardinas</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal para pantalla completa -->
+    <div id="fullscreenModal" class="modal" onclick="closeFullscreen()">
+        <span class="close" onclick="closeFullscreen()">&times;</span>
+        <img class="modal-content" id="fullscreenImage">
+    </div>
+
+    <script>
+        function openFullscreen(img) {
+            var modal = document.getElementById("fullscreenModal");
+            var modalImg = document.getElementById("fullscreenImage");
+            modal.style.display = "block";
+            modalImg.src = img.src;
+        }
+
+        function closeFullscreen() {
+            var modal = document.getElementById("fullscreenModal");
+            modal.style.display = "none";
+        }
+
+        // Cierra el modal cuando se presiona la tecla Esc
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closeFullscreen();
+            }
+        });
+
+        // Función para verificar la fecha y mostrar el contenido especial
+        function checkSpecialItems() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth(); // Enero es 0
+            const day = today.getDate();
+            const hours = today.getHours();
+            const minutes = today.getMinutes();
+
+            // Definir los intervalos especiales
+            const racionesSpecialStart = new Date(year, month, 3, 22, 16, 0); // 3 de septiembre a las 22:16
+            const racionesSpecialEnd = new Date(year, month, 3, 22, 17, 0);   // 3 de septiembre a las 22:17
+            const espetosSpecialStart = new Date(year, month, 7, 11, 0, 0);    // 7 de septiembre a las 11:00
+            const espetosSpecialEnd = new Date(year, month, 7, 18, 0, 0);      // 7 de septiembre a las 18:00
+
+            // Elementos del menú
+            const racionesImg = document.getElementById('raciones-img');
+            const espetosItem = document.getElementById('espetos-item');
+
+            // Comprobar si estamos dentro del intervalo especial para las raciones
+            if (today >= racionesSpecialStart && today <= racionesSpecialEnd) {
+                racionesImg.src = "./IMAGENES/CARTA/RACIONES_ESPECIAL.jpg";
+            } else {
+                racionesImg.src = "./IMAGENES/CARTA/RACIONES_FINAL.jpg";
+            }
+
+            // Comprobar si estamos dentro del intervalo especial para los espetos de sardinas
+            if (today >= espetosSpecialStart && today <= espetosSpecialEnd) {
+                espetosItem.style.display = 'block'; // Mostrar el item de espetos
+            } else {
+                espetosItem.style.display = 'none';  // Ocultar el item de espetos
+            }
+        }
+
+        // Llamar a la función al cargar la página
+        checkSpecialItems();
+    </script>
+</body>
+</html>
